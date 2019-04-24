@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "SqStack.h"
-#include "math.h"
+#include "mathf.h"
 
 using namespace std;
 
