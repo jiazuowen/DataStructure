@@ -4,6 +4,12 @@
  * Date     2019-04-23
  */
 #include "SqStack.h"
+#include <stdlib.h>
+
+namespace Sq
+{
+
+using namespace Sq;
 
 Status InitStack(SqStack &S)
 {
@@ -66,13 +72,14 @@ Status Pop(SqStack &S, SElemType &e)
     return OK;
 }
 
-Status StackTraverse(SqStack S, SqStackTraverse visit)
+Status StackTraverse(SqStack S, std::function<void(SElemType* t)> visit)
 {
     SElemType* p = S.top;
     while (p != S.base)
     {
-        visit(p - 1);
-        p--;
+        visit(--p);
     }
     return OK;
+}
+
 }

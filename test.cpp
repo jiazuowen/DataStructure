@@ -4,12 +4,11 @@
 #include "mathf.h"
 
 using namespace std;
+using namespace Sq;
 
 SqStack S;
 int N = 100;
 int H = 8;
-
-Status visiter(SElemType* item);
 
 int main()
 {
@@ -20,13 +19,14 @@ int main()
         N = N / H;
     }
 
-    StackTraverse(S, visiter);
+    StackTraverse(S, [](SElemType* t){
+        printf("Traverse:%d\n", *t);
+    });
     
     while (!StackEmpty(S))
     {
         char e;
         Pop(S, e);
-        //printf("%d", e);
     }
     DestroyStack(S);
 
@@ -36,10 +36,4 @@ int main()
     cout<<"add result:"<<num<<endl;
     cout<<"Hello Jack"<<endl;
     return 0;
-}
-
-Status visiter(SElemType* item)
-{
-    printf("%d", *item);
-    return OK;
 }

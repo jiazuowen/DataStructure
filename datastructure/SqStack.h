@@ -6,8 +6,13 @@
 #ifndef _STACK_H
 #define _STACK_H
 
-#include <stdlib.h>
+#include <functional>
+
+namespace Sq
+{
+
 #include "Advance.h"
+using namespace Sq;
 
 #define STACK_INIT_SIZE     100         
 #define STACKINCREMENT      10
@@ -20,7 +25,7 @@ typedef struct {
     int             stacksize;
 } SqStack;
 
-typedef Status (* SqStackTraverse)(SElemType* item);
+//typedef Status (* SqStackTraverse)(SElemType* item);
 
 /**
  * 初始化栈
@@ -65,6 +70,8 @@ Status Pop(SqStack &S, SElemType &e);
 /**
  * 遍历栈，使用visit函数处理每一个栈元素
 */
-Status StackTraverse(SqStack S, SqStackTraverse visit);
+Status StackTraverse(SqStack S, std::function<void(SElemType* t)> visit);
+
+}
 
 #endif

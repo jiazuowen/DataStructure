@@ -1,6 +1,9 @@
 #ifndef _ADVANCE_H
 #define _ADVANCE_H
 
+namespace Sq
+{
+
 #define TRUE            1
 #define FALSE           0
 #define OK              1
@@ -9,5 +12,7 @@
 #define OVERFLOW        -2
 
 typedef int Status;
+
+}
 
 #endif
