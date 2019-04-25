@@ -11,6 +11,7 @@ using namespace mathf;
 void test_JacList();
 void test_JacStack();
 void test_JacQueue();
+void test_JacArray();
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +27,8 @@ int main(int argc, char *argv[])
         test_JacList();
     else if (a == 3)
         test_JacQueue();
+    else if (a == 4)
+        test_JacArray();
 
     return 1;
 }
@@ -96,6 +99,7 @@ void test_JacList()
     cout<<res<<endl;
 }
 
+// 测试队列数据结构
 void test_JacQueue()
 {
     string res = "ok";
@@ -121,5 +125,22 @@ void test_JacQueue()
     }
 
     delete queue;
+    cout<<res<<endl;
+}
+
+// 测试数组数据结构
+void test_JacArray()
+{
+    string res = "ok";
+    JacArray<string>* strArray = new JacArray<string>(100);
+    for (int i = 0; i < 100; ++i) {
+        (*strArray)[i] = "hello jack";
+    }
+    for (int i = 0; i < 100; ++i) {
+        if ((*strArray)[i] != "hello jack") {
+            res = "not";
+        }
+    }
+    delete strArray;
     cout<<res<<endl;
 }
