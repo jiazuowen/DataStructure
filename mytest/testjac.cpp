@@ -8,8 +8,9 @@ using namespace std;
 using namespace Jac;
 using namespace mathf;
 
-int test_JacList();
-int test_JacStack();
+void test_JacList();
+void test_JacStack();
+void test_JacQueue();
 
 int main(int argc, char *argv[])
 {
@@ -17,20 +18,22 @@ int main(int argc, char *argv[])
         std::cout << "parameter error" << std::endl;
         return -1; 
     }
-
     int a = atoi(argv[1]);
+
     if (a == 1)
-        return test_JacStack();
+        test_JacStack();
     else if (a == 2)
-        return test_JacList();
+        test_JacList();
+    else if (a == 3)
+        test_JacQueue();
 
     return 1;
 }
 
 // 测试JacStack
-int test_JacStack()
+void test_JacStack()
 {
-    int res = 0;
+    string res = "ok";
     int i = 0;
     int testLeng = 15000;
 
@@ -43,26 +46,24 @@ int test_JacStack()
         int num;
         if (S->Pop(num)) {
             if (num != (testLeng - i - 1)) {
-                res = 1;
+                res = "not equet";
                 break;
             }
         } else {
-            res = 2;
+            res = "error pop";
             break;
         }
-        cout<<num<<endl;
     }
-
     delete S;
-    return res;
+    cout<<res<<endl;
 }
 
 // 测试JacList
-int test_JacList()
+void test_JacList()
 {
-    int res = 0;
+    string res = "ok";
     int i = 0;
-    int testLeng = 1500;
+    int testLeng = 15000;
 
     JacList<float>* JList = new JacList<float>();
 
@@ -75,24 +76,50 @@ int test_JacList()
     for (i = 0; i < len; i++) {
         if (3 == i) {
             if ((*JList)[i] != 4.55f) {
-                res = 1;
+                res = "not 4.55";
                 break;
             }
         } else if (i < 3) {
             if ((*JList)[i] != (float)i) {
-                res = 2;
+                res = "not ==";
                 break;
             }
         } else {
             if ((*JList)[i] != (float)(i - 1)) {
-                res = 3;
+                res = "not ==";
                 break;
             }
         }
-        cout<<(*JList)[i]<<endl;
     }
     
     delete JList;
+    cout<<res<<endl;
+}
 
-    return res;
+void test_JacQueue()
+{
+    string res = "ok";
+    int i = 0;
+    int testLengh = 15000;
+
+    JacQueue<double>* queue = new JacQueue<double>();
+    for (i = 0; i < testLengh; ++i) {
+        queue->Enqueue((double)i);
+    }
+
+    for (i = 0; i < testLengh; ++i) {
+        double num;
+        if (queue->Dequeue(num)) {
+            if (num != (double)i) {
+                res = "not equent";
+                break;
+            }
+        } else {
+            res = "valid length";
+            break;
+        }
+    }
+
+    delete queue;
+    cout<<res<<endl;
 }

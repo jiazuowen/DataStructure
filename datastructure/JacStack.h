@@ -26,27 +26,28 @@ public:
     JacStack(int initSize);
     ~JacStack();
 
-    void ClearStack();
-    int StackLength();
-    bool StackEmpty();
-    T GetTop();
+    void Clear();
+    int Length();
+    bool Empty();
+    bool GetTop(T &t);
     void Push(T const &t);
     bool Pop(T &t);
-    void StackTraverse(std::function<void(T)> visit);
+    void Traverse(std::function<void(T)> visit);
 private:
-    void InitStack(int initsize);
+    void initStack(int initsize);
+    void expendStack();
 };
 
 template<class T>
 JacStack<T>::JacStack()
 {
-    InitStack(INITSIZE);
+    initStack(INITSIZE);
 }
 
 template<class T>
 JacStack<T>::JacStack(int initsize)
 {
-    InitStack(initsize);
+    initStack(initsize);
 }
 
 template<class T>
@@ -59,54 +60,36 @@ JacStack<T>::~JacStack()
 }
 
 template<class T>
-void JacStack<T>::InitStack(int initsize)
-{
-    base = new T[initsize];
-    top = base;
-    stacksize = initsize;
-}
-
-template<class T>
-void JacStack<T>::ClearStack()
+void JacStack<T>::Clear()
 {
     top = base;
 }
 
 template<class T>
-int JacStack<T>::StackLength()
+int JacStack<T>::Length()
 {
     return stacksize;
 }
 
 template<class T>
-bool JacStack<T>::StackEmpty()
+bool JacStack<T>::Empty()
 {
     return top == base;
 }
 
 template<class T>
-T JacStack<T>::GetTop()
+bool JacStack<T>::GetTop(T &t)
 {
-    return *(top - 1);
+    if (top == base) return false;
+    
+    t= *(top - 1);
+    return true;
 }
 
 template<class T>
 void JacStack<T>::Push(T const &t)
 {
-    // 已经到达栈定时，要扩容
-    if ((top - base) >= stacksize) {
-        T* newBase = new T[stacksize + INCREASESIZE];
-        T* np = newBase;
-        T* p = base;
-        while(p != top) {
-            *np++ = *p++;
-        }
-        delete [] base;
-        base = newBase;
-        top = base + stacksize;
-        stacksize += INCREASESIZE;
-    }
-
+    if ((top - base) >= stacksize) expendStack();
     *(top++) = t;
 }
 
@@ -119,12 +102,35 @@ bool JacStack<T>::Pop(T &t)
 }
 
 template<class T>
-void JacStack<T>::StackTraverse(std::function<void(T)> visit)
+void JacStack<T>::Traverse(std::function<void(T)> visit)
 {
     T* p = top;
     while(p != base) {
         visit(*(--p));
     }
+}
+
+template<class T>
+void JacStack<T>::initStack(int initsize)
+{
+    base = new T[initsize];
+    top = base;
+    stacksize = initsize;
+}
+
+template<class T>
+void JacStack<T>::expendStack()
+{
+    T* newBase = new T[stacksize + INCREASESIZE];
+    T* np = newBase;
+    T* p = base;
+    while(p != top) {
+        *np++ = *p++;
+    }
+    delete [] base;
+    base = newBase;
+    top = base + stacksize;
+    stacksize += INCREASESIZE;
 }
 
 }
