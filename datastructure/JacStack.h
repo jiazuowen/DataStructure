@@ -13,8 +13,8 @@ using namespace std;
 namespace Jac
 {
 
-#define INITSIZE 100
-#define INCREASESIZE 10
+#define STACK_INIT_SIZE 100
+#define STACK_INCREASESIZE 10
 
 template<class T>
 class JacStack {
@@ -27,12 +27,12 @@ public:
     ~JacStack();
 
     void Clear();
-    int Length();
-    bool Empty();
-    bool GetTop(T &t);
+    int Length() const;
+    bool Empty() const;
+    bool GetTop(T &t) const;
     void Push(T const &t);
     bool Pop(T &t);
-    void Traverse(std::function<void(T)> visit);
+    void Traverse(std::function<void(T)> visit) const;
 private:
     void initStack(int initsize);
     void expendStack();
@@ -41,7 +41,7 @@ private:
 template<class T>
 JacStack<T>::JacStack()
 {
-    initStack(INITSIZE);
+    initStack(STACK_INIT_SIZE);
 }
 
 template<class T>
@@ -66,19 +66,19 @@ void JacStack<T>::Clear()
 }
 
 template<class T>
-int JacStack<T>::Length()
+int JacStack<T>::Length() const
 {
     return stacksize;
 }
 
 template<class T>
-bool JacStack<T>::Empty()
+bool JacStack<T>::Empty() const
 {
     return top == base;
 }
 
 template<class T>
-bool JacStack<T>::GetTop(T &t)
+bool JacStack<T>::GetTop(T &t) const
 {
     if (top == base) return false;
     
@@ -102,7 +102,7 @@ bool JacStack<T>::Pop(T &t)
 }
 
 template<class T>
-void JacStack<T>::Traverse(std::function<void(T)> visit)
+void JacStack<T>::Traverse(std::function<void(T)> visit) const
 {
     T* p = top;
     while(p != base) {
@@ -121,7 +121,7 @@ void JacStack<T>::initStack(int initsize)
 template<class T>
 void JacStack<T>::expendStack()
 {
-    T* newBase = new T[stacksize + INCREASESIZE];
+    T* newBase = new T[stacksize + STACK_INCREASESIZE];
     T* np = newBase;
     T* p = base;
     while(p != top) {
@@ -130,7 +130,7 @@ void JacStack<T>::expendStack()
     delete [] base;
     base = newBase;
     top = base + stacksize;
-    stacksize += INCREASESIZE;
+    stacksize += STACK_INCREASESIZE;
 }
 
 }

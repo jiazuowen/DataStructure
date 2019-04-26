@@ -20,7 +20,7 @@ class JacArray
 public:
     JacArray(int size);
     ~JacArray();
-    int Length();
+    int Length() const;
     T& operator[](int i);
 };
 
@@ -39,7 +39,7 @@ JacArray<T>::~JacArray()
 }
 
 template<class T>
-int JacArray<T>::Length()
+int JacArray<T>::Length() const
 {
     return length;
 }

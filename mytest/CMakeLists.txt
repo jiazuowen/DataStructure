@@ -16,13 +16,13 @@ target_link_libraries(testjac math)
 target_link_libraries(testjac datastructure)
 
 # 添加测试
-add_test(test_jacstack testjac "1")
+add_test(test_jacstack testjac "1" "40000")
 set_tests_properties(test_jacstack PROPERTIES PASS_REGULAR_EXPRESSION "ok")
-add_test(test_jaclist testjac "2")
+add_test(test_jaclist testjac "2" "40000")
 set_tests_properties(test_jaclist PROPERTIES PASS_REGULAR_EXPRESSION "ok")
-add_test(test_jacqueue testjac "3")
+add_test(test_jacqueue testjac "3" "40000")
 set_tests_properties(test_jacqueue PROPERTIES PASS_REGULAR_EXPRESSION "ok")
-add_test(test_jacarray testjac "4")
+add_test(test_jacarray testjac "4" "40000")
 set_tests_properties(test_jacarray PROPERTIES PASS_REGULAR_EXPRESSION "ok")
 
 

@@ -29,12 +29,12 @@ public:
     ~JacQueue();
 
     void Clear();
-    int Length();
-    bool Empty();
-    bool GetHead(T &t);
+    int Length() const;
+    bool Empty() const;
+    bool GetHead(T &t) const;
     void Enqueue(T const &t);
     bool Dequeue(T &t);
-    void Traverse(std::function<void(T)> visit);
+    void Traverse(std::function<void(T)> visit) const;
 private:
     void initQueue(int initsize);
     void expendQueue();
@@ -72,19 +72,19 @@ void JacQueue<T>::Clear()
 }
 
 template<class T>
-int JacQueue<T>::Length()
+int JacQueue<T>::Length() const
 {
     return length;
 }
 
 template<class T>
-bool JacQueue<T>::Empty()
+bool JacQueue<T>::Empty() const
 {
     return length == 0;
 }
 
 template<class T>
-bool JacQueue<T>::GetHead(T &t)
+bool JacQueue<T>::GetHead(T &t) const
 {
     if (length <= 0) return false;
     t = *head;
@@ -115,7 +115,7 @@ bool JacQueue<T>::Dequeue(T &t)
 }
 
 template<class T>
-void JacQueue<T>::Traverse(std::function<void(T)> visit)
+void JacQueue<T>::Traverse(std::function<void(T)> visit) const
 {
     T* p = head;
     for (int i = 0; i < length; ++i) {

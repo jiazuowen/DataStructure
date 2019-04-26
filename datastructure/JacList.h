@@ -26,13 +26,13 @@ public:
     JacList();
     ~JacList();
     void Clear();
-    int Length();
-    bool Empty();
+    int Length() const;
+    bool Empty() const;
     bool Insert(int index, T const &t);
     void RemoveAt(int i);
     void Append(T const &t);
-    void Traverse(std::function<void(T)> visit);
-    T operator[](int i);
+    void Traverse(std::function<void(T)> visit) const;
+    T& operator[](int i);
 private:
     void initList(int l);
     void expendList();
@@ -84,13 +84,13 @@ void JacList<T>::Clear()
 }
 
 template<class T>
-int JacList<T>::Length()
+int JacList<T>::Length() const
 {
     return tail - head;
 }
 
 template<class T>
-bool JacList<T>::Empty()
+bool JacList<T>::Empty() const
 {
     return tail == head;
 }
@@ -134,7 +134,7 @@ void JacList<T>::Append(T const &t)
 }
 
 template<class T>
-void JacList<T>::Traverse(std::function<void(T)> visit)
+void JacList<T>::Traverse(std::function<void(T)> visit) const
 {
     T* p = head;
     while (p != tail)
@@ -144,7 +144,7 @@ void JacList<T>::Traverse(std::function<void(T)> visit)
 }
 
 template<class T>
-T JacList<T>::operator[](int i)
+T& JacList<T>::operator[](int i)
 {
     if (i >= Length())
         throw "index vaild";

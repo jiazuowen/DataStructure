@@ -8,37 +8,37 @@ using namespace std;
 using namespace Jac;
 using namespace mathf;
 
-void test_JacList();
-void test_JacStack();
-void test_JacQueue();
-void test_JacArray();
+void test_JacList(int testLeng);
+void test_JacStack(int testLeng);
+void test_JacQueue(int testLeng);
+void test_JacArray(int testLeng);
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2) {
+    if (argc < 3) {
         std::cout << "parameter error" << std::endl;
         return -1; 
     }
     int a = atoi(argv[1]);
+    int n = atoi(argv[2]);
 
     if (a == 1)
-        test_JacStack();
+        test_JacStack(n);
     else if (a == 2)
-        test_JacList();
+        test_JacList(n);
     else if (a == 3)
-        test_JacQueue();
+        test_JacQueue(n);
     else if (a == 4)
-        test_JacArray();
+        test_JacArray(n);
 
     return 1;
 }
 
 // 测试JacStack
-void test_JacStack()
+void test_JacStack(int testLeng)
 {
     string res = "ok";
     int i = 0;
-    int testLeng = 15000;
 
     JacStack<int>* S = new JacStack<int>();
 
@@ -62,11 +62,10 @@ void test_JacStack()
 }
 
 // 测试JacList
-void test_JacList()
+void test_JacList(int testLeng)
 {
     string res = "ok";
     int i = 0;
-    int testLeng = 15000;
 
     JacList<float>* JList = new JacList<float>();
 
@@ -100,18 +99,17 @@ void test_JacList()
 }
 
 // 测试队列数据结构
-void test_JacQueue()
+void test_JacQueue(int testLeng)
 {
     string res = "ok";
     int i = 0;
-    int testLengh = 15000;
 
     JacQueue<double>* queue = new JacQueue<double>();
-    for (i = 0; i < testLengh; ++i) {
+    for (i = 0; i < testLeng; ++i) {
         queue->Enqueue((double)i);
     }
 
-    for (i = 0; i < testLengh; ++i) {
+    for (i = 0; i < testLeng; ++i) {
         double num;
         if (queue->Dequeue(num)) {
             if (num != (double)i) {
@@ -129,14 +127,14 @@ void test_JacQueue()
 }
 
 // 测试数组数据结构
-void test_JacArray()
+void test_JacArray(int testLeng)
 {
     string res = "ok";
-    JacArray<string>* strArray = new JacArray<string>(100);
-    for (int i = 0; i < 100; ++i) {
+    JacArray<string>* strArray = new JacArray<string>(testLeng);
+    for (int i = 0; i < testLeng; ++i) {
         (*strArray)[i] = "hello jack";
     }
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < testLeng; ++i) {
         if ((*strArray)[i] != "hello jack") {
             res = "not";
         }
