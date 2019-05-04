@@ -12,6 +12,7 @@ void test_JacList(int testLeng);
 void test_JacStack(int testLeng);
 void test_JacQueue(int testLeng);
 void test_JacArray(int testLeng);
+void test_JacString(int testLeng);
 
 int main(int argc, char *argv[])
 {
@@ -30,6 +31,9 @@ int main(int argc, char *argv[])
         test_JacQueue(n);
     else if (a == 4)
         test_JacArray(n);
+    else if (a == 5)
+        test_JacString(n);
+    
 
     return 1;
 }
@@ -140,5 +144,64 @@ void test_JacArray(int testLeng)
         }
     }
     delete strArray;
+    cout<<res<<endl;
+}
+
+void test_JacString(int testLeng)
+{
+    string res = "ok";
+    JacString str1 = "Hello Jack!";
+    JacString str2 = " Hoho";
+    JacString str3 = str1 + str2;
+    JacString str4 = "You are my love, You are my sunsise";
+
+    if (str3.Compare(JacString("Hello Jack! Hoho"))) {
+        res = "Error: Compare 1  str1 + str2 != str3";
+        cout<<res<<endl;
+        return;
+    }
+
+    if (str3.Compare("Hello Jack! Hoho")) {
+        res = "Error: Compare 2  str1 + str2 != str3";
+        cout<<res<<endl;
+        return;
+    }
+
+    int llo = str1.Index("llo");
+    if (llo != 2) {
+        res = "Error: Index str1 'llo' index not 2";
+        cout<<res<<endl;
+        return;
+    }
+
+    llo = str1.Index(JacString("o Jac"));
+    if (llo != 4) {
+        res = "Error: Index str1 'o Jac' index not 4";
+        cout<<res<<endl;
+        return;
+    }
+
+    JacString s = str4.SubString(14, 5);
+    if (s != "e, Yo") {
+        cout<<s<<endl;
+        res = "Error: SubString  s != 'e, Yo'";
+        cout<<res<<endl;
+        return;
+    }
+
+    str4.Replace("You", "She");
+    if (s != "She are my love, She are my sunsise") {
+        res = "Error: Replace('You','She')";
+        cout<<res<<endl;
+        return;
+    }
+
+    str4.Replace(JacString("my"), JacString("his"));
+    if (s != "She are his love, She are his sunsise") {
+        res = "Error: Replace('my','his')";
+        cout<<res<<endl;
+        return;
+    }
+
     cout<<res<<endl;
 }

@@ -24,5 +24,7 @@ add_test(test_jacqueue testjac "3" "40000")
 set_tests_properties(test_jacqueue PROPERTIES PASS_REGULAR_EXPRESSION "ok")
 add_test(test_jacarray testjac "4" "40000")
 set_tests_properties(test_jacarray PROPERTIES PASS_REGULAR_EXPRESSION "ok")
+add_test(test_jacstring testjac "5" "10")
+set_tests_properties(test_jacstring PROPERTIES PASS_REGULAR_EXPRESSION "ok")
 
 
