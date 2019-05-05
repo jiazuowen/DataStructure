@@ -17,8 +17,8 @@ class JacString
     int length;
     int size;
 public:
-    JacString();
-    JacString(const char* str, int len = 0);
+    JacString(int size = STRING_INIT_SIZE);
+    JacString(const char* str);
     JacString(const JacString &jstr);
     ~JacString();
 
@@ -28,8 +28,8 @@ public:
     int Compare(const JacString & js) const { return Compare(js.base); };
     int Compare(const char* str) const;
     JacString SubString(int pos, int len) const;
-    int Index(const JacString &a) const { return Index(a.base); };
-    int Index(const char* str) const;
+    int Index(int pos, const JacString &a) const { return Index(pos, a.base); };
+    int Index(int pos, const char* str) const;
     void Replace(const JacString &old, const JacString &nnw) { Replace(old.base, nnw.base); };
     void Replace(const char* old, const char* nnw);
     bool Insert(int pos, const JacString &js) { return Insert(pos, js.base); };
@@ -44,7 +44,7 @@ public:
     bool operator!=(const char* str) { return !(*this == str); }
     friend std::ostream &operator<<(std::ostream &output, const JacString &d) { output << d.base; return output; }
 private:
-    void initString(const int &size, const char* str = nullptr);
+    void initString(const char* str = nullptr, int len = 0);
     void expendString(int increase);
     
 };
