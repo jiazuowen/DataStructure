@@ -4,6 +4,7 @@
  * Date 2019-05-01
 */
 #include "JacString.h"
+#include "mathf.h"
 
 JacString::JacString(int size)
 {
@@ -120,16 +121,28 @@ JacString JacString::SubString(int pos, int len) const
     return str;
 }
 
-int JacString::Index(int pos, const char* str) const /* 还需改良, 可以使用KMP算法*/
+int JacString::Index(int pos, const char* str) /* 还需改良, 可以使用KMP算法*/
 {
     int i = pos, j = 0;
-    while (*(str + j) && *(this->base + i))
+    int len;
+    for (len = 0; *(str + len); ++len);
+    int* next = new int[len];
+    getNextKMP(str, len, next);
+    //while (*(str + j) && *(this->base + i))
+    while(i < length && j < len)
     {
-       if (*(this->base + i) == *(str + j)) { ++i; ++j; }
-       else { i = i - j + 1; j = 0; }
+        if (j == -1 || *(this->base + i) == *(str + j)) { 
+            ++i;
+            ++j; 
+        } else { 
+            //j = getNextKMP(str, j);
+            //i = i - j + 1; j = 0;
+            j = *(next + j);
+        }
     }
+    delete [] next;
 
-    if (j > 0) return i - j;
+    if (j >= len) return i - len;
     return -1;
 }
 
@@ -234,4 +247,25 @@ bool JacString::operator==(const char* str) const
     }
     if (i == this->length && !*(str+i)) res = true;
     return res;
+}
+
+void JacString::getNextKMP(const char* str, int len, int* next)
+{
+    int i = 0;
+    //*next = -1;
+    //int j = -1;
+    while (i < len)
+    {
+        *(next + i) = mathf::abcwabc(str, i+1) - 1;
+        // if (j == -1 || *(str + i) == *(str + j)) {
+        //     ++i;
+        //     ++j;
+        //     if (*(str + i) != *(str + j))
+        //         *(next + i) = j;
+        //     else
+        //         *(next + i) = *(next + j);
+        // } else {
+        //     j = *(next + j);
+        // }
+    }
 }

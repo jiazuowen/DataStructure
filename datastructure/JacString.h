@@ -29,7 +29,7 @@ public:
     int Compare(const char* str) const;
     JacString SubString(int pos, int len) const;
     int Index(int pos, const JacString &a) const { return Index(pos, a.base); };
-    int Index(int pos, const char* str) const;
+    int Index(int pos, const char* str);
     void Replace(const JacString &old, const JacString &nnw) { Replace(old.base, nnw.base); };
     void Replace(const char* old, const char* nnw);
     bool Insert(int pos, const JacString &js) { return Insert(pos, js.base); };
@@ -46,7 +46,7 @@ public:
 private:
     void initString(const char* str = nullptr, int len = 0);
     void expendString(int increase);
-    
+    void getNextKMP(const char* str, int len, int* next); /*使用KMP算法计算查找串应该回溯的位置*/
 };
 
 #endif // !_JAC_STRING_H
