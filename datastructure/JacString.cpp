@@ -13,10 +13,8 @@ JacString::JacString(int size)
 
 JacString::JacString(const char* str)
 {
-    int i = 0;
-    const char* c = str;
-    for (i = 0, c = str; *c; ++i, ++c);
-    initString(str, i);
+    int len = strlen(str);
+    initString(str, len);
 }
 
 JacString::JacString(const JacString &jstr)
@@ -34,7 +32,7 @@ JacString::~JacString()
 
 void JacString::initString(const char* str, int len)
 {
-    int initSize = STRING_INIT_SIZE > len ? STRING_INIT_SIZE : len;
+    int initSize = (STRING_INIT_SIZE > len ? STRING_INIT_SIZE : len) + MORE_SIZE;
     this->base = new char[initSize];
     this->size = initSize;
     if (str != nullptr) {
@@ -67,11 +65,6 @@ void JacString::expendString(int increase)
     this->size += increase;
 }
 
-int JacString::Length() const
-{
-    return length;
-}
-
 void JacString::Clear()
 {
     *base = '\0';
@@ -86,8 +79,7 @@ bool JacString::Empty() const
 int JacString::Compare(const char* str) const
 {
     int res = 0;
-    int i = 0;
-    for (i = 0; *(str +i); ++i);
+    int i = strlen(str);
     int count = this->length < i ? this->length : i;
     for (i = 0; i < count; ++i) {
         if (*(this->base + i) < *(str + i)) {
@@ -121,53 +113,58 @@ JacString JacString::SubString(int pos, int len) const
     return str;
 }
 
-int JacString::Index(int pos, const char* str) /* 还需改良, 可以使用KMP算法*/
+int JacString::Index(int pos, const char* str) const /* 使用KMP算法*/
 {
-    int i = pos, j = 0;
+    if (pos >= this->Length()) return -1;
+
     int len;
-    for (len = 0; *(str + len); ++len);
-    int* next = new int[len];
-    getNextKMP(str, len, next);
-    //while (*(str + j) && *(this->base + i))
-    while(i < length && j < len)
+    int k = pos;
+    int j = 0;
+    int res = -1;
+    
+    int*next = getNextKMP(str, len);
+    while (*(this->base + k) != '\0' && j < len)
     {
-        if (j == -1 || *(this->base + i) == *(str + j)) { 
-            ++i;
-            ++j; 
+        if ((j == -1) || (*(this->base + k) == *(str + j))) {
+            if (j == -1) {
+                ++k;
+                j = 0;
+            } else {
+                ++k;
+                ++j; 
+            }
         } else { 
-            //j = getNextKMP(str, j);
-            //i = i - j + 1; j = 0;
             j = *(next + j);
         }
     }
     delete [] next;
+    next = 0;
 
-    if (j >= len) return i - len;
-    return -1;
+    if (j >= len) {
+        res = k - len;
+    }
+    return res;
 }
 
 void JacString::Replace(const char* old, const char* nnw)
 {
-    int oldLen;
-    int nnwLen;
-    for (oldLen = 0; *(old + oldLen); ++oldLen);
-    for (nnwLen = 0; *(nnw + nnwLen); ++nnwLen);
+    int oldLen = strlen(old);
+    int nnwLen = strlen(nnw);
     int pos = Index(0, old);
     while (pos >= 0) {
         Delete(pos, oldLen);
         Insert(pos, nnw);
-        if (pos + nnwLen > this->length) break;
-        pos = Index(pos + nnwLen, old);
+        pos += nnwLen;
+        pos = Index(pos, old);
     }
 }
 
 bool JacString::Insert(int pos, const char* str)
 {
     if (pos < 0 || pos > this->length) return false;
-    int i = 0;
-    for (; *(str + i); ++i);
-    if (this->length + i > this->size) {
-        expendString(this->length + i - this->size);
+    int i = strlen(str);
+    if (this->length + i > this->Size()) {
+        expendString(this->length + i - this->Size());
     }
     char* tail = this->base + this->length + i;
     const char* head = this->base + this->length;
@@ -190,7 +187,7 @@ void JacString::Delete(int pos, int len)
 {
     if (pos < 0 || len <= 0) return;
     if (pos + len > this->length)
-        throw "JacString::Delete Out of Range";
+       throw "JacString::Delete Out of Range";
     char* head = this->base + pos;
     const char* tail = this->base + pos + len;
     while (*tail) {
@@ -202,14 +199,12 @@ void JacString::Delete(int pos, int len)
 
 void JacString::operator=(const char* str)
 {
-    int i = 0;
-    const char* p = str;
-    for (; *p; ++i, ++p);
-    if (i > this->size) {
-        expendString(i - this->size);
+    int i = strlen(str);
+    if (i > this->Size()) {
+        expendString(i - this->Size());
     }
-    for (i = 0, p = str; *p; ++i, ++p) {
-        *(this->base + i) = *p;
+    for (i = 0; *(str + i); ++i) {
+        *(this->base + i) = *(str + i);
     }
     *(this->base + i) = '\0';
     this->length = i;
@@ -219,8 +214,8 @@ JacString JacString::operator+(const JacString &b)
 {
     JacString a;
     a = *this;
-    if (a.Length() + b.Length() > a.size) {
-        int increase = a.Length() + b.Length() - a.size;
+    if (a.Length() + b.Length() > a.Size()) {
+        int increase = a.Length() + b.Length() - a.Size();
         if (increase < STRING_INCREASE) increase = STRING_INCREASE;
         a.expendString(increase);
     }
@@ -249,23 +244,26 @@ bool JacString::operator==(const char* str) const
     return res;
 }
 
-void JacString::getNextKMP(const char* str, int len, int* next)
+int* JacString::getNextKMP(const char* str, int & len) const
 {
-    int i = 0;
-    //*next = -1;
-    //int j = -1;
+    len = strlen(str);
+    if (len == 0) return 0;
+
+    int* next = new int[len];
+    *next = -1;
+    int i = 1;
     while (i < len)
     {
-        *(next + i) = mathf::abcwabc(str, i+1) - 1;
-        // if (j == -1 || *(str + i) == *(str + j)) {
-        //     ++i;
-        //     ++j;
-        //     if (*(str + i) != *(str + j))
-        //         *(next + i) = j;
-        //     else
-        //         *(next + i) = *(next + j);
-        // } else {
-        //     j = *(next + j);
-        // }
+        *(next + i) = mathf::abcwabc(str, i);
+        ++i;
     }
+
+    return next;
+}
+
+int JacString::strlen(const char* str) const
+{
+    int len;
+    for (len = 0; *(str + len); ++len);
+    return len;
 }

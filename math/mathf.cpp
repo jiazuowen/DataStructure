@@ -20,16 +20,19 @@ int Palindrome(const char* a, int a_len)
 int abcwabc(const char* a, int a_len)
 {
     if (a_len == 0) for (; *(a + a_len); ++a_len);
+    if (a_len == 1) return 0;
     const char* pa = a;
-    const char* pb = a + a_len / 2 + a_len % 2;
-    while (pb - a < a_len)
+    const char* pb = a + a_len / 2;
+    const char* p = pb;
+    while (p - a < a_len)
     {
-        if (*pa == *pb) {
+        if (*pa == *p) {
             pa++;
-            pb++;
+            p++;
         } else {
             pa = a;
             pb++;
+            p = pb;
         }
     }
     

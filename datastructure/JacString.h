@@ -10,6 +10,8 @@
 
 #define STRING_INIT_SIZE 100
 #define STRING_INCREASE 20
+#define MORE_SIZE 1
+
 
 class JacString
 {
@@ -22,14 +24,15 @@ public:
     JacString(const JacString &jstr);
     ~JacString();
 
-    int Length() const;
+    int Length() const { return length; };
+    int Size() const { return size - MORE_SIZE; };
     void Clear();
     bool Empty() const;
     int Compare(const JacString & js) const { return Compare(js.base); };
     int Compare(const char* str) const;
     JacString SubString(int pos, int len) const;
     int Index(int pos, const JacString &a) const { return Index(pos, a.base); };
-    int Index(int pos, const char* str);
+    int Index(int pos, const char* str) const;
     void Replace(const JacString &old, const JacString &nnw) { Replace(old.base, nnw.base); };
     void Replace(const char* old, const char* nnw);
     bool Insert(int pos, const JacString &js) { return Insert(pos, js.base); };
@@ -46,7 +49,8 @@ public:
 private:
     void initString(const char* str = nullptr, int len = 0);
     void expendString(int increase);
-    void getNextKMP(const char* str, int len, int* next); /*使用KMP算法计算查找串应该回溯的位置*/
+    int* getNextKMP(const char* str, int & len) const; /*使用KMP算法计算查找串应该回溯的位置*/
+    inline int strlen(const char* str) const;
 };
 
 #endif // !_JAC_STRING_H

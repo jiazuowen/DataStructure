@@ -13,6 +13,7 @@ void test_JacStack(int testLeng);
 void test_JacQueue(int testLeng);
 void test_JacArray(int testLeng);
 void test_JacString(int testLeng);
+void test_Mathf(int testLeng);
 
 int main(int argc, char *argv[])
 {
@@ -33,6 +34,8 @@ int main(int argc, char *argv[])
         test_JacArray(n);
     else if (a == 5)
         test_JacString(n);
+    else if (a == 6)
+        test_Mathf(n);
     
 
     return 1;
@@ -158,85 +161,110 @@ void test_JacString(int testLeng)
 void testjaja()
 {
     string res = "ok";
-        JacString str1 = "Hello Jack!";
-        JacString str2 = " Hoho";
-        JacString str3 = str1 + str2;
-        JacString str4 = "You are my love, You are my sunshine";
+    JacString str1 = "Hello Jack!";
+    JacString str2 = " Hoho";
+    JacString str3 = str1 + str2;
+    JacString str4 = "You are my love, You are my sunshine";
+    JacString str5("KOOOO");
 
-        if (0 != str3.Compare(JacString("Hello Jack! Hoho"))) {
-            res = "Error: Compare 1  str1 + str2 != str3";
-            cout<<res<<endl;
-            cout<<str3<<endl;
-            return;
-        }
-
-        if (0 != str3.Compare("Hello Jack! Hoho")) {
-            res = "Error: Compare 2  str1 + str2 != str3";
-            cout<<res<<endl;
-            cout<<str3<<endl;
-            return;
-        }
-
-        int llo = str1.Index(0, "llo");
-        if (llo != 2) {
-            res = "Error: Index str1 'llo' index not 2";
-            cout<<res<<endl;
-            cout<<str1<<llo<<endl;
-            return;
-        }
-
-        llo = str1.Index(0, JacString("o Jac"));
-        if (llo != 4) {
-            res = "Error: Index str1 'o Jac' index not 4";
-            cout<<res<<endl;
-            cout<<str1<<llo<<endl;
-            return;
-        }
-
-        str1.Delete(5, 3);
-        if (str1 != "Hellock!") {
-            res = "Error: Delete str1 at 5 3";
-            cout<<res<<endl;
-            cout<<str1<<endl;
-            return;
-        }
-
-        if (str2.Insert(1, "Jack")) {
-            if (str2 != " JackHoho") {
-                res = "Error: Insert str2 'Jack' at 1";
-                cout<<res<<endl;
-                cout<<str2<<endl;
-                return;
-            }
-        } else {
-            res = "Error: Insert str2 fail";
-            cout<<res<<endl;
-            return;
-        }
-
-        JacString s = str4.SubString(14, 5);
-        if (s != "e, Yo") {
-            cout<<s<<endl;
-            res = "Error: SubString  s != 'e, Yo'";
-            cout<<res<<endl;
-            return;
-        }
-
-        str4.Replace("You", "She");
-        if (str4 != "She are my love, She are my sunshine") {
-            res = "Error: Replace('You','She')";
-            cout<<res<<endl;
-            cout<<str4<<endl;
-            return;
-        }
-
-        str4.Replace(JacString("my"), JacString("his"));
-        if (str4 != "She are his love, She are his sunshine") {
-            res = "Error: Replace('my','his')";
-            cout<<res<<endl;
-            cout<<str4<<endl;
-            return;
-        }
-
+    if (0 != str3.Compare(JacString("Hello Jack! Hoho"))) {
+        res = "Error: Compare 1  str1 + str2 != str3";
         cout<<res<<endl;
+        cout<<str3<<endl;
+        return;
+    }
+
+    if (0 != str3.Compare("Hello Jack! Hoho")) {
+        res = "Error: Compare 2  str1 + str2 != str3";
+        cout<<res<<endl;
+        cout<<str3<<endl;
+        return;
+    }
+
+    int index = str1.Index(0, "llo");
+    if (index != 2) {
+        res = "Error: Index str1 'llo' index not 2";
+        cout<<res<<endl;
+        cout<<str1<<index<<endl;
+        return;
+    }
+
+    index = str1.Index(0, JacString("o Jac"));
+    if (index != 4) {
+        res = "Error: Index str1 'o Jac' index not 4";
+        cout<<res<<endl;
+        cout<<str1<<index<<endl;
+        return;
+    }
+
+    str1.Delete(5, 3);
+    if (str1 != "Hellock!") {
+        res = "Error: Delete str1 at 5 3";
+        cout<<res<<endl;
+        cout<<str1<<endl;
+        return;
+    }
+
+    if (str2.Insert(1, "Jack")) {
+        if (str2 != " JackHoho") {
+            res = "Error: Insert str2 'Jack' at 1";
+            cout<<res<<endl;
+            cout<<str2<<endl;
+            return;
+        }
+    } else {
+        res = "Error: Insert str2 fail";
+        cout<<res<<endl;
+        return;
+    }
+
+    JacString s = str4.SubString(14, 5);
+    if (s != "e, Yo") {
+        cout<<s<<endl;
+        res = "Error: SubString  s != 'e, Yo'";
+        cout<<res<<endl;
+        return;
+    }
+
+    str4.Replace("my", "his");
+    if (str4 != "You are his love, You are his sunshine") {
+        res = "Error: Replace('my','his')";
+        cout<<res<<endl;
+        cout<<str4<<endl;
+
+        return;
+    }
+
+    str4.Replace(JacString("You"), JacString("She"));
+    if (str4 != "She are his love, She are his sunshine") {
+        res = "Error: Replace('You','She')";
+        cout<<res<<endl;
+        cout<<str4<<endl;
+        return;
+    }
+
+    cout<<res<<endl;
+}
+
+void test_Mathf(int testLeng)
+{
+    //const char* str = "abcwabce";
+    const char* str = "abcdwabcd";
+
+    int len;
+    for (len = 0; *(str + len); ++len);
+    int* next = new int[len];
+    *next = -1;
+    int i = 1;
+    while (i < len)
+    {
+        *(next + i) = mathf::abcwabc(str, i);
+        ++i;
+    }
+   
+    for (i = 0; i <len; ++i) {
+        cout<<*(next + i) <<endl;
+    }
+
+    delete [] next;
 }
