@@ -14,6 +14,7 @@ void test_JacQueue(int testLeng);
 void test_JacArray(int testLeng);
 void test_JacString(int testLeng);
 void test_Mathf(int testLeng);
+void testM_Array(int testLeng);
 
 int main(int argc, char *argv[])
 {
@@ -36,6 +37,8 @@ int main(int argc, char *argv[])
         test_JacString(n);
     else if (a == 6)
         test_Mathf(n);
+    else if (a == 7)
+        testM_Array(n);
     
 
     return 1;
@@ -267,4 +270,29 @@ void test_Mathf(int testLeng)
     }
 
     delete [] next;
+}
+
+void test_Array()
+{
+    string res = "ok";
+
+    Array A;
+    InitArray(&A, 3, 10, 10, 10);
+    Assign(&A, 7, 5, 3, 2);
+    int num;
+    Value(&A, &num, 5, 3, 2);
+    if (num != 7) {
+        res = "Not .......";
+        cout<<res<<endl;
+        cout<<num<<endl;
+    }
+    DestroyArray(&A);
+    cout<<res<<endl;
+}
+
+void testM_Array(int testLeng)
+{
+    for (int i = 0; i < testLeng; ++i) {
+        test_Array();
+    }
 }

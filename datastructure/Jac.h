@@ -3,3 +3,4 @@
 #include "JacQueue.h"
 #include "JacArray.h"
 #include "JacString.h"
+#include "Array.h"
