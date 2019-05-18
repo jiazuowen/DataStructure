@@ -16,6 +16,8 @@ extern "C" {
 
 typedef int Status;
 
+typedef int ElemType;
+
 #ifdef __cplusplus
 }
 #endif

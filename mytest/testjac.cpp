@@ -2,6 +2,7 @@
 #include<string>
 
 #include "Jac.h"
+#include "clearn.h"
 #include "mathf.h"
 
 using namespace std;

@@ -15,8 +15,6 @@ extern "C" {
 
 #define MAX_ARRAY_DIM       8
 
-typedef int ElemType;
-
 typedef struct {
     ElemType* base;
     int dim;
