@@ -14,11 +14,17 @@ extern "C" {
 #define OVERFLOW    -2
 #define UNDERFLOW   -3
 
+#define NULLPTR     0
+
 typedef int Status;
 
 typedef int ElemType;
 
 typedef int BOOL;
+
+#define MALLOC(x)  malloc(x)
+#define FREE(x) free(x)
+#define NOWILD(x) x=NULLPTR
 
 #ifdef __cplusplus
 }
