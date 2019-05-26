@@ -16,7 +16,7 @@ namespace Jac
 #define STACK_INIT_SIZE 100
 #define STACK_INCREASESIZE 10
 
-template<class T>
+template<typename T>
 class JacStack {
     T*  base;
     T*  top;
@@ -38,19 +38,19 @@ private:
     void expendStack();
 };
 
-template<class T>
+template<typename T>
 JacStack<T>::JacStack()
 {
     initStack(STACK_INIT_SIZE);
 }
 
-template<class T>
+template<typename T>
 JacStack<T>::JacStack(int initsize)
 {
     initStack(initsize);
 }
 
-template<class T>
+template<typename T>
 JacStack<T>::~JacStack()
 {
     delete [] base;
@@ -59,25 +59,25 @@ JacStack<T>::~JacStack()
     stacksize = 0;
 }
 
-template<class T>
+template<typename T>
 void JacStack<T>::Clear()
 {
     top = base;
 }
 
-template<class T>
+template<typename T>
 int JacStack<T>::Length() const
 {
     return stacksize;
 }
 
-template<class T>
+template<typename T>
 bool JacStack<T>::Empty() const
 {
     return top == base;
 }
 
-template<class T>
+template<typename T>
 bool JacStack<T>::GetTop(T &t) const
 {
     if (top == base) return false;
@@ -86,14 +86,14 @@ bool JacStack<T>::GetTop(T &t) const
     return true;
 }
 
-template<class T>
+template<typename T>
 void JacStack<T>::Push(T const &t)
 {
     if ((top - base) >= stacksize) expendStack();
     *(top++) = t;
 }
 
-template<class T>
+template<typename T>
 bool JacStack<T>::Pop(T &t)
 {
     if (top == base) false;
@@ -101,7 +101,7 @@ bool JacStack<T>::Pop(T &t)
     return true;
 }
 
-template<class T>
+template<typename T>
 void JacStack<T>::Traverse(std::function<void(T)> visit) const
 {
     T* p = top;
@@ -110,7 +110,7 @@ void JacStack<T>::Traverse(std::function<void(T)> visit) const
     }
 }
 
-template<class T>
+template<typename T>
 void JacStack<T>::initStack(int initsize)
 {
     base = new T[initsize];
@@ -118,7 +118,7 @@ void JacStack<T>::initStack(int initsize)
     stacksize = initsize;
 }
 
-template<class T>
+template<typename T>
 void JacStack<T>::expendStack()
 {
     T* newBase = new T[stacksize + STACK_INCREASESIZE];

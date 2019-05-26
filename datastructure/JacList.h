@@ -16,7 +16,7 @@ namespace Jac
 #define LIST_INIT_LENGTH    50
 #define LIST_INCREACE       10
 
-template<class T>
+template<typename T>
 class JacList 
 {
     T* head;
@@ -38,13 +38,13 @@ private:
     void expendList();
 };
 
-template<class T>
+template<typename T>
 JacList<T>::JacList()
 {
     initList(LIST_INIT_LENGTH);
 }
 
-template<class T>
+template<typename T>
 void JacList<T>::initList(int l)
 {
     head = new T[l];
@@ -52,7 +52,7 @@ void JacList<T>::initList(int l)
     listSize = l;
 }
 
-template<class T>
+template<typename T>
 void JacList<T>::expendList()
 {
     T* newHead = new T[listSize + LIST_INCREACE];
@@ -68,7 +68,7 @@ void JacList<T>::expendList()
     listSize += LIST_INCREACE;
 }
 
-template<class T>
+template<typename T>
 JacList<T>::~JacList()
 {
     delete [] head;
@@ -77,25 +77,25 @@ JacList<T>::~JacList()
     listSize = 0;
 }
 
-template<class T>
+template<typename T>
 void JacList<T>::Clear()
 {
     tail = head;
 }
 
-template<class T>
+template<typename T>
 int JacList<T>::Length() const
 {
     return tail - head;
 }
 
-template<class T>
+template<typename T>
 bool JacList<T>::Empty() const
 {
     return tail == head;
 }
 
-template<class T>
+template<typename T>
 bool JacList<T>::Insert(int i, T const &t)
 {
     if (i >= Length()) return false;     
@@ -112,7 +112,7 @@ bool JacList<T>::Insert(int i, T const &t)
     return true;
 }
 
-template<class T>
+template<typename T>
 void JacList<T>::RemoveAt(int i)
 {
     if (i > Length()) return;     
@@ -125,7 +125,7 @@ void JacList<T>::RemoveAt(int i)
     tail--;
 }
 
-template<class T>
+template<typename T>
 void JacList<T>::Append(T const &t)
 {
     if (Length() >= listSize) expendList();    
@@ -133,7 +133,7 @@ void JacList<T>::Append(T const &t)
     tail++;
 }
 
-template<class T>
+template<typename T>
 void JacList<T>::Traverse(std::function<void(T)> visit) const
 {
     T* p = head;
@@ -143,7 +143,7 @@ void JacList<T>::Traverse(std::function<void(T)> visit) const
     }
 }
 
-template<class T>
+template<typename T>
 T& JacList<T>::operator[](int i)
 {
     if (i >= Length())

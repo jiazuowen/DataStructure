@@ -15,7 +15,8 @@ void test_JacQueue(int testLeng);
 void test_JacArray(int testLeng);
 void test_JacString(int testLeng);
 void test_Mathf(int testLeng);
-void testM_Array(int testLeng);
+void test_Array(int testLeng);
+void test_GList(int testLeng);
 
 int main(int argc, char *argv[])
 {
@@ -39,9 +40,10 @@ int main(int argc, char *argv[])
     else if (a == 6)
         test_Mathf(n);
     else if (a == 7)
-        testM_Array(n);
+        test_Array(n);
+    else if (a == 8)
+        test_GList(n);
     
-
     return 1;
 }
 
@@ -273,7 +275,7 @@ void test_Mathf(int testLeng)
     delete [] next;
 }
 
-void test_Array()
+void t_Array()
 {
     string res = "ok";
 
@@ -291,15 +293,17 @@ void test_Array()
     cout<<res<<endl;
 }
 
-void testM_Array(int testLeng)
+void test_Array(int testLeng)
 {
     for (int i = 0; i < testLeng; ++i) {
-        test_Array();
+        t_Array();
     }
 }
 
-void test_GList(int testLeng) 
+void t_gList() 
 {
+    string res = "ok";
+
     GList L = NULLPTR;
     InitGList(&L);
 
@@ -314,9 +318,28 @@ void test_GList(int testLeng)
 
     int len;
     GListLength(L, &len);
+    if (len != 3) {
+        res = "Length not correct";
+        cout<<res<<endl;
+        cout<<"current length:"<<len<<endl;
+    }
 
     int depth;
     GListDepth(L, &depth);
+    if (depth != 1) {
+        res = "Depth not correct";
+        cout<<res<<endl;
+        cout<<"Current depth:"<<depth<<endl;
+    }
 
     DestroyGList(&L);
+
+    cout<<res<<endl;
+}
+
+void test_GList(int testLeng) 
+{
+    for (int i = 0; i < testLeng; ++i) {
+        t_gList();
+    }
 }

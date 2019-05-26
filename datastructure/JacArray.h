@@ -12,7 +12,7 @@ using namespace std;
 namespace Jac
 {
 
-template<class T>
+template<typename T>
 class JacArray
 {
     T* base;
@@ -24,27 +24,27 @@ public:
     T& operator[](int i);
 };
 
-template<class T>
+template<typename T>
 JacArray<T>::JacArray(int size)
 {
     base = new T[size];
     length = size;
 }
 
-template<class T>
+template<typename T>
 JacArray<T>::~JacArray()
 {
     delete [] base;
     length = 0;
 }
 
-template<class T>
+template<typename T>
 int JacArray<T>::Length() const
 {
     return length;
 }
 
-template<class T>
+template<typename T>
 T& JacArray<T>::operator[](int i)
 {
     if (i >= length)

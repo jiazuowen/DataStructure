@@ -83,14 +83,14 @@ Status GListEmpty(const GList L, BOOL* empty);
 /**
  * 获取广义表的头
  * @pre L!=0
- * @post head!=0, when return OK
+ * @post head!=0, head是一个原子或者是一个空表, when return OK
 */
 Status GListHead(const GList L, GLNode* head);
 
 /**
  * 取广义表的尾
  * @pre L!=0
- * @post tail != 0, when return OK
+ * @post tail != 0, tail是一个原子或者是一个空表, when return OK
 */
 Status GListTail(const GList L, GLNode* tail);
 

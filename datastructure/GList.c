@@ -57,9 +57,29 @@ Status CopyGList(GList T, const GList L)
     return ERROR;
 }
 
-Status GListLength(const GList L, int* lenght)
+Status GListLength(const GList L, int* lenght) // 递归函数
 {
-    return ERROR;
+    int len;
+    if (!L) return ERROR;
+    if (L->tag == LIST && !L->hp && !L->tp) { 
+        *lenght = 0;
+        return OK;
+    }
+    if (L->tag == ATOM) {
+        *lenght = 1;
+    } else {
+        Status s = GListLength(L->hp, &len);
+        if (s != OK) return s;
+        *lenght = len;
+    }
+    GLNode* p = L->tp;
+    while (p)
+    {
+        Status s = GListLength(p, &len);
+        if (s != OK) return s;
+        *lenght += len;
+    }
+    return OK;
 }
 
 Status GListDepth(const GList L, int* depth) //递归函数
@@ -96,37 +116,75 @@ Status GListEmpty(const GList L, BOOL* empty)
     return OK;
 }
 
-Status GListHead(const GList L, GLNode* head)
+GLNode* getHead(const GList L) // 递归函数
 {
-    // if (!L) return ERROR;
-    // if (L->tag == ATOM) {
-    //     head = L;
-    //     return OK;
-    // }
-    // head = L->hp;
+    if (L->tag == ATOM) {
+        return L;
+    }
+    if (L->tag == LIST && !L->hp && !L->tp) {
+        return L;
+    }
+    return getHead(L->hp);
+}
 
+GLNode* getTail(const GList L) // 递归函数
+{
+    GLNode* p = L;
+    while (p->tp) {
+        p = p->tp;
+    }
+    if (p->tag == ATOM) {
+        return L;
+    }
+    if (p->tag == LIST && !p->hp && !p->tp) {
+        return L;
+    }
+    return getTail(p);
+}
+
+Status GListHead(const GList L, GLNode* head) // 递归函数
+{
+    if (!L) return ERROR;
+    GLNode* p = getHead(L);
+    if (!p) return ERROR;
+    if (p->tag == ATOM) {
+        head->tag = ATOM;
+        head->atom = p->atom;
+    } else {
+        head->tag = LIST;
+        head->hp = NULLPTR;
+    }
+    head->tp = NULLPTR;
     return OK;
 }
 
-Status GListTail(const GList L, GLNode* tail)
+Status GListTail(const GList L, GLNode* tail) // 递归函数
 {
-    // if (!L) return ERROR;
-    // if (L->tag == ATOM) {
-    //     tail = L;
-    //     return OK;
-    // }
-    // GLNode* p = L->hp;
-    // while (p->tp) {
-    //     p = p->tp;
-    // }
-    // tail = p;
-    
+    if (!L) return ERROR;
+    GLNode* p = getTail(L);
+    if (!p) return ERROR;
+    if (p->tag == ATOM) {
+        tail->tag = ATOM;
+        tail->atom = p->atom;
+    } else {
+        tail->tag = LIST;
+        tail->hp = NULLPTR;
+    }
+    tail->tp = NULLPTR;
     return OK;
 }
 
-Status InsertFirst_GL(GList L,  const GLNode e)
+Status InsertFirst_GL(GList L, const GLNode e)
 {
-    return ERROR;
+    // if (!L) return ERROR;
+    // GLNode* p = getHead(L);
+    // GLNode* n = (GLNode*)MALLOC(sizeof(GLNode));
+    // n->tag = e.tag;
+    // if (e.tag == ATOM)
+    //     n->atom = e.atom;
+    // else 
+        
+    return OK;
 }
 
 Status DeleteFirst_GL(GList L, GLNode* e)

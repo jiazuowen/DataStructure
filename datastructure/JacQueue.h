@@ -15,7 +15,7 @@ namespace Jac
 #define QUEUE_INIT_SIZE 100
 #define QUEUE_INCREASESIZE 10
 
-template<class T>
+template<typename T>
 class JacQueue
 {
     T*  base;
@@ -40,19 +40,19 @@ private:
     void expendQueue();
 };
 
-template<class T>
+template<typename T>
 JacQueue<T>::JacQueue()
 {
     initQueue(QUEUE_INIT_SIZE);
 }
 
-template<class T>
+template<typename T>
 JacQueue<T>::JacQueue(int initSize)
 {
     initQueue(initSize);
 }
 
-template<class T>
+template<typename T>
 JacQueue<T>::~JacQueue()
 {
     delete [] base;
@@ -63,7 +63,7 @@ JacQueue<T>::~JacQueue()
     queuesize = 0;
 }
 
-template<class T>
+template<typename T>
 void JacQueue<T>::Clear()
 {
     head = base;
@@ -71,19 +71,19 @@ void JacQueue<T>::Clear()
     length = 0;
 }
 
-template<class T>
+template<typename T>
 int JacQueue<T>::Length() const
 {
     return length;
 }
 
-template<class T>
+template<typename T>
 bool JacQueue<T>::Empty() const
 {
     return length == 0;
 }
 
-template<class T>
+template<typename T>
 bool JacQueue<T>::GetHead(T &t) const
 {
     if (length <= 0) return false;
@@ -91,7 +91,7 @@ bool JacQueue<T>::GetHead(T &t) const
     return true;
 }
 
-template<class T>
+template<typename T>
 void JacQueue<T>::Enqueue(T const &t)
 {
     if (length >= queuesize) expendQueue();
@@ -105,7 +105,7 @@ void JacQueue<T>::Enqueue(T const &t)
     length++;
 }
 
-template<class T>
+template<typename T>
 bool JacQueue<T>::Dequeue(T &t)
 {
     if (length <= 0) return false;
@@ -114,7 +114,7 @@ bool JacQueue<T>::Dequeue(T &t)
     return true;
 }
 
-template<class T>
+template<typename T>
 void JacQueue<T>::Traverse(std::function<void(T)> visit) const
 {
     T* p = head;
@@ -128,7 +128,7 @@ void JacQueue<T>::Traverse(std::function<void(T)> visit) const
     }
 }
 
-template<class T>
+template<typename T>
 void JacQueue<T>::initQueue(int initsize)
 {
     base = new T[initsize];
@@ -138,7 +138,7 @@ void JacQueue<T>::initQueue(int initsize)
     queuesize = initsize;
 }
 
-template<class T>
+template<typename T>
 void JacQueue<T>::expendQueue()
 {
     T* newbase = new T[queuesize + QUEUE_INCREASESIZE];
