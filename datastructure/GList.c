@@ -7,45 +7,47 @@
 #include "GList.h"
 #include <stdlib.h>
 
-Status InitGList(GList L)
+Status InitGList(GList* L)
 {
     GLNode* p = (GLNode*)MALLOC(sizeof(GLNode));
     if (!p) exit(OVERFLOW);
     p->tag = LIST;
     p->hp = NULLPTR;
     p->tp = NULLPTR;
-    L = p;
-    return ERROR;
+    *L = p;
+    return OK;
 }
 
-Status CreateGList(GList L, const GList S)
+Status CreateGList(GList* L, const GList S)
 {
     Status s = InitGList(L);
     if (s != OK) return s;
-    return CopyGList(L, S);
+    return CopyGList(*L, S);
 }
 
-Status DestroyGList(GList L) // 递归函数
+Status DestroyGList(GList* L) // 递归函数
 {
     Status s;
 
-    if (!L) return ERROR;
+    if (!*L) return ERROR;
 
-    if (L->hp) {
-        s = DestroyGList(L->hp);
+    GLNode* p = (*L)->hp;
+
+    if (p) {
+        s = DestroyGList(&p);
         if (s != OK) return s;
     }
 
-    GList p = L->tp;
-    while (p)
+    GLNode* n = (*L)->tp;
+    while (n)
     {
-        s = DestroyGList(p);
+        s = DestroyGList(&n);
         if (s != OK) return s;
-        p = p->tp;
+        n = n->tp;
     }
     
-    FREE(L);
-    L = NULLPTR;
+    FREE(*L);
+    *L = NULLPTR;
     
     return OK;
 }

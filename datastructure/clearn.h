@@ -3,3 +3,4 @@
 */
 #include "Array.h"
 #include "SparseMatrix.h"
+#include "GList.h"

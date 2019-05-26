@@ -297,3 +297,26 @@ void testM_Array(int testLeng)
         test_Array();
     }
 }
+
+void test_GList(int testLeng) 
+{
+    GList L = NULLPTR;
+    InitGList(&L);
+
+    GLNode e;
+    InsertFirst_GL(L, e);
+    InsertFirst_GL(L, e);
+    InsertFirst_GL(L, e);
+    InsertFirst_GL(L, e);
+
+    GLNode d;
+    DeleteFirst_GL(L, &d);
+
+    int len;
+    GListLength(L, &len);
+
+    int depth;
+    GListDepth(L, &depth);
+
+    DestroyGList(&L);
+}
